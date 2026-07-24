@@ -2,70 +2,256 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#070707">
-  <meta name="description" content="GiveMePrompts underground prompt laboratory and playable signal-defense arcade experience.">
-  <title>GiveMePrompts // Acquiring Signal</title>
-  <style>
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:#070707;color:#a5f27a;font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-    body{background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0,rgba(255,255,255,.018) 1px,transparent 1px,transparent 4px)}
-    main{min-height:100vh;display:grid;place-items:center;padding:24px}
-    section{width:min(560px,100%);border:1px solid #344036;background:#0b0e0c;padding:clamp(22px,5vw,38px);box-shadow:inset 0 0 60px #000}
-    .channel{margin:0 0 10px;color:#f2a640;letter-spacing:.16em}
-    h1{font-size:clamp(24px,6vw,46px);line-height:1;margin:0 0 18px;letter-spacing:-.04em}
-    p{color:#c8c8bf;margin:0 0 18px}
-    .track{height:6px;background:#1a211c;overflow:hidden;border:1px solid #2b342e}
-    .bar{height:100%;width:8%;background:#a5f27a;transition:width .18s ease}
-    small{display:block;margin-top:14px;color:#788078}
-    .error{color:#f2a640;margin-top:16px}
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070807">
+  <meta name="description" content="GiveMePrompts: an underground prompt laboratory where raw ideas become image, video, music, and business systems.">
+  <title>GiveMePrompts // Underground Prompt Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.webgpu.js",
+      "three/webgpu": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.webgpu.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
-  <main>
-    <section aria-live="polite">
-      <p class="channel">OPEN CHANNEL 23</p>
-      <h1>ACQUIRING UNDERGROUND LAB</h1>
-      <p id="status">ROUTING SIX-PART SIGNAL</p>
-      <div class="track" aria-label="Loading progress"><div class="bar" id="bar"></div></div>
-      <small>The machinery is real. The loading screen merely has better manners than most software.</small>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <div id="boot" class="boot" role="status" aria-live="polite">
+    <div class="boot__frame">
+      <p class="eyebrow">SIGNAL CONVERSION LABORATORY 07</p>
+      <h1>ACQUIRING OPEN CHANNEL 23</h1>
+      <div class="boot__track" aria-hidden="true"><span id="bootBar"></span></div>
+      <p id="bootStatus" class="boot__status">WARMING PHOSPHOR ARRAY</p>
+      <button id="enterButton" class="button button--primary" type="button" disabled>ENTER TRANSMISSION</button>
+    </div>
+  </div>
+
+  <canvas id="scene" aria-label="Interactive three-dimensional view of the GMP-01 Prompt Synthesis Array"></canvas>
+  <div class="crt-overlay" aria-hidden="true"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#open-channel" aria-label="GiveMePrompts home">
+      <span class="brand__mark">GMP</span>
+      <span class="brand__text">OPEN CHANNEL 23</span>
+    </a>
+    <div class="topbar__actions">
+      <button id="qualityButton" class="utility-button" type="button" aria-label="Change rendering quality">QUALITY: AUTO</button>
+      <button id="motionButton" class="utility-button" type="button" aria-pressed="false">REDUCE MOTION</button>
+      <button id="flashesButton" class="utility-button" type="button" aria-pressed="false">FLASHES: FULL</button>
+      <button id="shakeButton" class="utility-button" type="button" aria-pressed="false">SHAKE: FULL</button>
+      <button id="muteButton" class="utility-button" type="button" aria-pressed="false">SOUND: OFF</button>
+      <button id="fullscreenButton" class="utility-button" type="button">FULLSCREEN</button>
+    </div>
+  </header>
+
+  <div class="signal-rail" aria-hidden="true">
+    <span id="signalRailFill"></span>
+  </div>
+
+  <main id="main-content">
+    <section id="open-channel" class="story-section story-section--hero" data-scene="0">
+      <div class="copy copy--hero">
+        <p class="eyebrow">UNAUTHORIZED BRAND TRANSMISSION</p>
+        <h1>RAW IDEAS GO IN.<br><span>SYSTEMS COME OUT.</span></h1>
+        <p class="lede">GiveMePrompts is an underground laboratory for converting loose concepts into production-ready image, video, music, and business systems.</p>
+        <p class="warning-line">THIS TRANSMISSION WAS NOT CLEARED FOR PUBLIC ACCESS.</p>
+        <a class="scroll-cue" href="#raw-signal">TUNE THE SIGNAL <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="section-index">00 / OPEN CHANNEL</div>
+    </section>
+
+    <section id="raw-signal" class="story-section" data-scene="1">
+      <div class="copy copy--left">
+        <p class="eyebrow">RAW SIGNAL INTAKE</p>
+        <h2>MOST IDEAS ARRIVE DAMAGED.</h2>
+        <p>They arrive incomplete, overloaded, contradictory, or too vague to survive production.</p>
+        <p>The first job is not generation. The first job is identifying the signal.</p>
+        <div class="diagnostic-list" aria-label="Common prompt faults">
+          <span>REPETITION</span><span>MISSING INTENT</span><span>CONTRADICTION</span><span>DECORATIVE NOISE</span>
+        </div>
+      </div>
+      <div class="section-index">01 / INTAKE</div>
+    </section>
+
+    <section id="anatomy" class="story-section" data-scene="2">
+      <div class="copy copy--right">
+        <p class="eyebrow">SEMANTIC SPLITTER</p>
+        <h2>EVERY USABLE SIGNAL HAS ANATOMY.</h2>
+        <div class="anatomy-lines">
+          <button type="button" data-channel="subject"><b>SUBJECT</b><span>determines what exists.</span></button>
+          <button type="button" data-channel="style"><b>STYLE</b><span>determines the language it speaks.</span></button>
+          <button type="button" data-channel="camera"><b>CAMERA</b><span>determines how it is seen.</span></button>
+          <button type="button" data-channel="light"><b>LIGHT</b><span>determines what receives power.</span></button>
+          <button type="button" data-channel="motion"><b>MOTION</b><span>determines how it behaves through time.</span></button>
+        </div>
+      </div>
+      <div class="section-index">02 / ANATOMY</div>
+    </section>
+
+    <section id="forges" class="story-section" data-scene="3">
+      <div class="copy copy--left">
+        <p class="eyebrow">MODALITY ROUTER</p>
+        <h2>ONE SIGNAL. FOUR FORMS OF PRODUCTION.</h2>
+        <p>Image systems define the frame. Video systems define change through time. Music systems define rhythm, texture, and pressure. Business systems define repeatable action.</p>
+        <div class="forge-tabs" role="tablist" aria-label="Output forges">
+          <button role="tab" aria-selected="true" data-forge="0">IMAGE</button>
+          <button role="tab" aria-selected="false" data-forge="1">VIDEO</button>
+          <button role="tab" aria-selected="false" data-forge="2">AUDIO</button>
+          <button role="tab" aria-selected="false" data-forge="3">SYSTEMS</button>
+        </div>
+        <p id="forgeReadout" class="readout">FRAME / COMPOSITION / SURFACE / COLOR</p>
+      </div>
+      <div class="section-index">03 / OUTPUT FORGES</div>
+    </section>
+
+    <section id="constraints" class="story-section" data-scene="4">
+      <div class="copy copy--right">
+        <p class="eyebrow">CONSTRAINT LATTICE</p>
+        <h2>PRECISION IS BUILT BY EXCLUSION.</h2>
+        <p>A system becomes useful when it knows what must remain consistent, what may change, and what is forbidden.</p>
+        <p>More language does not always create more control. Sometimes it only creates more noise.</p>
+        <div class="constraint-panel" aria-label="Constraint resolver">
+          <label class="constraint"><input type="checkbox" checked data-constraint="identity"><span>LOCK SUBJECT IDENTITY</span></label>
+          <label class="constraint"><input type="checkbox" checked data-constraint="continuity"><span>PRESERVE CONTINUITY</span></label>
+          <label class="constraint"><input type="checkbox" data-constraint="noise"><span>ALLOW DECORATIVE NOISE</span></label>
+          <div class="clarity-meter"><span>CLARITY</span><meter id="clarityMeter" min="0" max="100" value="74">74%</meter><b id="clarityValue">74%</b></div>
+        </div>
+      </div>
+      <div class="section-index">04 / CONSTRAINTS</div>
+    </section>
+
+    <section id="archive" class="story-section story-section--quiet" data-scene="5">
+      <div class="copy copy--center">
+        <p class="eyebrow">FAILURE ARCHIVE</p>
+        <h2>THE LAB KEEPS THE FAILURES.</h2>
+        <p>Repeated faces. Broken continuity. Unreadable text. Generic composition. Movement without intention. Style without structure.</p>
+        <p>The clean result is only half the evidence.</p>
+      </div>
+      <div class="archive-strip" aria-hidden="true">
+        <span>FRAME_0047 / DUPLICATE IDENTITY</span>
+        <span>FRAME_0091 / BROKEN CONTINUITY</span>
+        <span>OUTPUT_0312 / EMPTY STYLE SIGNAL</span>
+      </div>
+      <div class="section-index">05 / ARCHIVE</div>
+    </section>
+
+    <section id="composer" class="story-section story-section--composer" data-scene="6">
+      <div class="copy copy--left copy--compact">
+        <p class="eyebrow">FIVE-CHANNEL SIGNAL COMPOSER</p>
+        <h2>BUILD THE SIGNAL.</h2>
+        <p>Change one channel at a time. The machine will route the combination into your starting weapon.</p>
+      </div>
+
+      <div class="composer" aria-label="Prompt signal composer">
+        <div class="composer__slots">
+          <label>SUBJECT<select data-compose="subject"></select></label>
+          <label>STYLE<select data-compose="style"></select></label>
+          <label>CAMERA<select data-compose="camera"></select></label>
+          <label>LIGHT<select data-compose="light"></select></label>
+          <label>MOTION<select data-compose="motion"></select></label>
+        </div>
+        <div class="composer__output">
+          <span>ACTIVE SIGNAL</span>
+          <p id="promptPreview">A black signal machine, analog broadcast style, macro camera, hard rim light, tracking motion.</p>
+          <div class="composer__stats">
+            <div><span>CLARITY</span><b id="composerClarity">82%</b></div>
+            <div><span>WEAPON</span><b id="weaponPreview">PIERCING TRACKER</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-index">06 / COMPOSER</div>
+    </section>
+
+    <section id="clearance" class="story-section" data-scene="7">
+      <div class="copy copy--center copy--clearance">
+        <p class="eyebrow">OPERATOR CLEARANCE GRANTED</p>
+        <h2>YOU HAVE BEEN LEARNING THE WEAPON SYSTEM.</h2>
+        <p>The same five channels used to construct an image can construct an attack pattern.</p>
+        <p>Build the signal. Load the fragments. Defend the laboratory.</p>
+        <a class="button button--primary" href="#game">PROCEED TO QUARANTINE</a>
+      </div>
+      <div class="section-index">07 / OPERATOR</div>
+    </section>
+
+    <section id="game" class="story-section story-section--game" data-scene="8">
+      <div class="game-intro" id="gameIntro">
+        <p class="eyebrow">PROMPT//WAR: SIGNAL SIEGE</p>
+        <h2>THE QUARANTINE CHAMBER HAS FAILED.</h2>
+        <p>Corrupted fragments are entering the active signal path. Build your ammunition. Protect the machine. Keep the signal clear.</p>
+        <div class="control-grid">
+          <span><b>MOVE</b> WASD / ARROWS / DRAG</span>
+          <span><b>FIRE</b> SPACE / POINTER</span>
+          <span><b>ABILITY</b> SHIFT / QUARANTINE</span>
+          <span><b>BUILD</b> 1–5 + Q/E / TAP SLOTS</span>
+          <span><b>FULLSCREEN</b> F</span>
+        </div>
+        <div class="game-intro__actions">
+          <button id="playButton" class="button button--danger" type="button">BEGIN SIGNAL SIEGE</button>
+          <button id="viewEndingButton" class="button" type="button">VIEW ENDING WITHOUT PLAYING</button>
+        </div>
+      </div>
+
+      <div id="gameHud" class="game-hud" hidden>
+        <div class="hud-block"><span>SIGNAL</span><b id="hudHealth">100</b></div>
+        <div class="hud-block"><span>CLARITY</span><b id="hudCombo">x1.0</b></div>
+        <div class="hud-block"><span>HEAT</span><b id="hudHeat">0%</b></div>
+        <div class="hud-block"><span>WAVE</span><b id="hudWave">01</b></div>
+        <div class="hud-block"><span>SCORE</span><b id="hudScore">000000</b></div>
+        <button id="pauseButton" class="hud-button" type="button">PAUSE</button>
+        <button id="gameMuteButton" class="hud-button" type="button">MUTE</button>
+      </div>
+
+      <div id="bossIndicator" class="boss-indicator" hidden><span>DEFAULT ENGINE</span><meter id="bossMeter" min="0" max="100" value="100">100%</meter></div>
+
+      <div id="fragmentRack" class="fragment-rack" hidden aria-label="Active prompt fragments"></div>
+      <button id="abilityButton" class="ability-button" type="button" hidden>QUARANTINE</button>
+
+      <div id="pauseOverlay" class="game-overlay" hidden>
+        <p class="eyebrow">TRANSMISSION SUSPENDED</p>
+        <h2>PAUSED</h2>
+        <button id="resumeButton" class="button button--primary" type="button">RESUME</button>
+      </div>
+
+      <div id="resultsOverlay" class="game-overlay" hidden aria-live="polite">
+        <p id="resultsEyebrow" class="eyebrow">RUN COMPLETE</p>
+        <h2 id="resultsTitle">SIGNAL RESTORED</h2>
+        <p id="resultsCopy">The system became powerful when the signal became deliberate.</p>
+        <div class="results-stats">
+          <div><span>SCORE</span><b id="resultScore">000000</b></div>
+          <div><span>BEST</span><b id="bestScore">000000</b></div>
+        </div>
+        <div class="game-intro__actions">
+          <button id="restartButton" class="button button--danger" type="button">TRANSMIT AGAIN</button>
+          <button id="returnButton" class="button" type="button">RETURN TO EXPERIENCE</button>
+        </div>
+      </div>
+
+      <div class="section-index">08 / SIGNAL SIEGE</div>
+    </section>
+
+    <section id="ending" class="story-section story-section--ending" data-scene="9">
+      <div class="copy copy--center">
+        <p class="eyebrow">SIGNAL CONVERSION LABORATORY 07</p>
+        <h2>GIVE ME THE RAW IDEA.<br><span>WE WILL BUILD THE SYSTEM.</span></h2>
+        <p>Image. Video. Music. Business.</p>
+        <p>Built as systems, not accidents.</p>
+        <div class="ending-actions">
+          <a class="button button--primary" href="#open-channel">ENTER THE LAB</a>
+          <a class="button" href="#game">REPLAY SIGNAL SIEGE</a>
+        </div>
+      </div>
+      <div class="section-index">09 / END TRANSMISSION</div>
     </section>
   </main>
-  <script>
-    (async()=>{
-      const status=document.getElementById('status');
-      const bar=document.getElementById('bar');
-      try{
-        if(!('DecompressionStream' in window)){
-          throw new Error('This browser is too old to decode the laboratory signal. Use a current Safari, Chrome, Firefox, or Edge release.');
-        }
-        const urls=Array.from({length:6},(_,i)=>`./payload/part-${String(i).padStart(2,'0')}.txt`);
-        const parts=[];
-        for(let i=0;i<urls.length;i++){
-          const response=await fetch(urls[i],{cache:'no-store'});
-          if(!response.ok) throw new Error(`Signal segment ${i+1} failed with status ${response.status}.`);
-          parts.push((await response.text()).trim());
-          bar.style.width=`${8+((i+1)/urls.length)*72}%`;
-          status.textContent=`ACQUIRED SIGNAL PART ${i+1} / ${urls.length}`;
-        }
-        const binary=atob(parts.join(''));
-        const compressed=Uint8Array.from(binary,character=>character.charCodeAt(0));
-        const stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'));
-        const html=await new Response(stream).text();
-        if(!html.startsWith('<!doctype html>')) throw new Error('Decoded signal failed integrity inspection.');
-        bar.style.width='100%';
-        status.textContent='SIGNAL LOCKED';
-        document.open();
-        document.write(html);
-        document.close();
-      }catch(error){
-        status.textContent='SIGNAL ACQUISITION FAILED';
-        const message=document.createElement('p');
-        message.className='error';
-        message.textContent=error instanceof Error?error.message:String(error);
-        document.querySelector('section').appendChild(message);
-      }
-    })();
-  </script>
+
+  <div id="liveStatus" class="sr-only" aria-live="polite"></div>
+  <noscript><div class="noscript">This experience requires JavaScript. The written narrative remains available in the page source, because even underground machinery must occasionally acknowledge reality.</div></noscript>
+
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>
