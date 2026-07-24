@@ -1,14 +1,8 @@
-const PARTS = [
-  './chunks/game/part-00.b64',
-  './chunks/game/part-01.b64',
-  './chunks/game/part-02.b64',
-  './chunks/game/part-03.b64',
-  './chunks/game/part-04.b64',
-  './chunks/game/part-05.b64',
-];
+const PARTS = ['./chunks/game/game.js.gz.part-00.b64', './chunks/game/game.js.gz.part-01.b64'];
 const EXPECTED_SHA256 = 'a011edf2ce6c39a548f7cb51ef61e86d98cd31a6dc9d638eff1bd47ec27dfe41';
 
 async function loadSource() {
+  if (!('DecompressionStream' in globalThis)) throw new Error('This browser cannot decode the game runtime. Use a current Safari, Chrome, Firefox, or Edge release.');
   const encoded = [];
   for (const path of PARTS) {
     const response = await fetch(new URL(path, import.meta.url), { cache: 'no-store' });
@@ -16,17 +10,16 @@ async function loadSource() {
     encoded.push((await response.text()).trim());
   }
   const binary = atob(encoded.join(''));
-  const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+  const compressed = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+  const stream = new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'));
+  const bytes = new Uint8Array(await new Response(stream).arrayBuffer());
   const digest = await crypto.subtle.digest('SHA-256', bytes);
   const hash = [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('');
   if (hash !== EXPECTED_SHA256) throw new Error('Game module failed SHA-256 integrity verification.');
   return new TextDecoder().decode(bytes);
 }
 
-const [THREE, originalSource] = await Promise.all([
-  import('three/webgpu'),
-  loadSource(),
-]);
+const [THREE, originalSource] = await Promise.all([import('three/webgpu'), loadSource()]);
 const source = originalSource.replace("import * as THREE from 'three/webgpu';", 'const THREE = globalThis.__GMP_THREE;');
 
 globalThis.__GMP_THREE = THREE;
