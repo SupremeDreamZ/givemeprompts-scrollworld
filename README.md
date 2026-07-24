@@ -1,6 +1,12 @@
 # GiveMePrompts — Underground Prompt Laboratory
 
-This `gh-pages` branch contains the GiveMePrompts cinematic scroll experience and the playable **PROMPT//WAR: SIGNAL SIEGE** finale.
+This repository contains the GiveMePrompts cinematic scroll experience and the playable **PROMPT//WAR: SIGNAL SIEGE** finale.
+
+## Branches
+
+- `main`: current underground laboratory build
+- `gh-pages`: GitHub Pages publishing branch
+- `archive/jsrf-scrollworld-2026-07-24`: preserved original JSRF ScrollWorld build
 
 ## GitHub Pages
 
@@ -18,11 +24,11 @@ The branch is deployable, but the public address should only be described as liv
 
 ## Runtime architecture
 
-- Direct `index.html`, `styles.css`, and ES modules
+- Direct `index.html`, `styles.css`, and native ES modules
 - Three.js `0.185.1` loaded from pinned jsDelivr URLs
 - `WebGPURenderer` with the Three.js WebGL 2 backend fallback
-- Direct scene module
-- Game module stored as two gzip/Base64 segments because of connector upload limits
+- Direct scene, controller, and audio modules
+- Game source transported as two deterministic gzip/Base64 segments because of connector write limits
 - SHA-256 verification before the game module is executed
 - No build step
 
@@ -36,15 +42,20 @@ The branch is deployable, but the public address should only be described as liv
 - Cleared movement and firing state on blur, pause, stop, and restart
 - Paused gameplay on hidden tabs, lost focus, and orientation changes
 - Fixed boss geometry initialization
-- Preserved the original ScrollWorld implementation on `main`
+- Froze projectile properties when fired so later loadout changes cannot mutate existing shots
+- Prevented burn-destroyed enemies from firing after death
+- Added reduced-shake and fullscreen controls
+- Added renderer, audio, timer, material, texture, and listener cleanup
 
 ## Verification completed
 
+- Direct deployment file Git blob hashes match the fixed local source
 - JavaScript syntax checks pass for all local source modules
 - Static HTML, selector, anchor, and import checks pass
 - Mocked game lifecycle tests pass
-- Game payload chunk Git blob hashes match the local upload files
+- Game payload chunk Git blob hashes match the upload files
 - Decompressed game source is checked against SHA-256 `a011edf2ce6c39a548f7cb51ef61e86d98cd31a6dc9d638eff1bd47ec27dfe41`
+- Deployment details and canonical hashes are recorded in `deployment-manifest.json`
 
 ## Still requiring physical or unrestricted browser verification
 
