@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "generated_at": "2026-07-24",
+  "three_version": "0.185.1",
+  "deployment": {
+    "entry": "index.html",
+    "strategy": "direct HTML, CSS, main controller, audio, and scene source; SHA-256-verified gzip game module split into two transport files",
+    "pages_branch": "gh-pages",
+    "pages_folder": "/(root)"
+  },
+  "canonical_source_sha256": {
+    "index.html": "42b9b72be5a7e7b4b22199f2c793e9eda74e553ac4066d74e402b5d490f0e7f2",
+    "styles.css": "3fd28e35b2676f13736e07b5cf386eeb493ad3b81d4a95dca87c724a726047b7",
+    "src/main.js": "c9661ae5e6a263a86b1a18cbe7d370cc8e9c4ba596716d85ba57ecbd392fe559",
+    "src/scene.js": "b4e2aab9200f0bf886ebb2286e0e42ea462a91ce502dcbe78984a3cef593b3d1",
+    "src/game.source.js": "a011edf2ce6c39a548f7cb51ef61e86d98cd31a6dc9d638eff1bd47ec27dfe41",
+    "src/audio.js": "ee16147fb8a3d90b29dc97bc82c5363d12861b09f92ff459431f72ba07ce57a8"
+  },
+  "verified_git_blob_sha1": {
+    "index.html": "9dfb8ca6c6b49c4bb57b34e852b18d296bcb119c",
+    "styles.css": "c271d953f5df93d14ebd68b1f52514e9e3c0b4ef",
+    "src/main.js": "c5eae3320a94e236be2c777d8da9cfc5d5afad14",
+    "src/scene.js": "56aab4f2db214467b0adda8b4bb8e4448b626e46",
+    "src/audio.js": "3fb9e2eb1e87558045df2f2005a45588bfc966b4",
+    "src/game.js": "d0d00a93e3b41206a707f25bcf053b4e2396428b",
+    "src/chunks/game/game.js.gz.part-00.b64": "4f77d66fee0db9a0f0986de5850a81833d142f5c",
+    "src/chunks/game/game.js.gz.part-01.b64": "f8fd266182768c2b3acd45d25f40ab2ba74fc7f7"
+  }
+}
