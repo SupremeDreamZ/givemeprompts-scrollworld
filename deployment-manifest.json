@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "generated_at": "2026-07-24",
   "three_version": "0.185.1",
   "deployment": {
@@ -7,6 +7,14 @@
     "strategy": "direct HTML, CSS, main controller, audio, and scene source; SHA-256-verified gzip game module split into two transport files",
     "pages_branch": "gh-pages",
     "pages_folder": "/(root)"
+  },
+  "validation": {
+    "static_qa": "passed",
+    "game_logic_lifecycle": "passed",
+    "javascript_syntax": "passed",
+    "deployment_files": "verified",
+    "public_pages_response": "not independently verified",
+    "physical_mobile_playthrough": "not independently verified"
   },
   "canonical_source_sha256": {
     "index.html": "42b9b72be5a7e7b4b22199f2c793e9eda74e553ac4066d74e402b5d490f0e7f2",
