@@ -1,16 +1,39 @@
-# GiveMePrompts — JSRF ScrollWorld
+# GiveMePrompts — Underground Prompt Laboratory
 
-Immersive scroll-scrubbed fly-through landing page. JSRF cel-shaded vector anime, HDR neons on pure black.
+This `gh-pages` branch contains the deployable GiveMePrompts underground laboratory experience and the playable **PROMPT//WAR: SIGNAL SIEGE** finale.
 
-## Stack
-- Vanilla JS scroll-scrub engine (`scrub-engine.js`)
-- AI-generated stills + seam-locked connectors (ArtCraft / Seedance 2.0)
-- H.264 scrub-optimized clips (GOP 4, yuv420p, +faststart, no audio)
-- Background track: Samurai BLAQUE — "Empty Condos in Toronto" (instrumental)
+## Publishing source
 
-## Deploy (Vercel)
-- Push to GitHub → import in Vercel → zero-config static deploy.
-- Or `npx vercel` from this directory.
+Use one GitHub Pages deployment method:
 
-## Credits
-GiveMePrompts · Tha WOLF · BLAQUE
+- **Source:** Deploy from a branch
+- **Branch:** `gh-pages`
+- **Folder:** `/(root)`
+
+The expected public URL is:
+
+`https://supremedreamz.github.io/givemeprompts-scrollworld/`
+
+The URL should not be described as live until GitHub Pages settings show a successful deployment and the page has been opened in a browser.
+
+## Runtime
+
+- Static HTML/CSS/JavaScript
+- Six compressed payload segments decoded by the loading page
+- Three.js `0.185.1` loaded from jsDelivr
+- WebGPURenderer with WebGL 2 backend fallback
+- No build step
+
+## Verified in this branch
+
+- Loader file exists
+- All six payload segment files exist
+- `.nojekyll` exists
+- Branch is ahead of `main` and preserves the previous ScrollWorld build on `main`
+
+## Not yet independently verified
+
+- Successful GitHub Pages deployment status
+- Public URL response
+- Complete desktop and mobile gameplay run on the deployed build
+- Exact equality between the deployed compressed payload and the latest local standalone HTML, because the branch currently has no cryptographic payload manifest
