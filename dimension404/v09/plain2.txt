@@ -1,0 +1,122 @@
+adding:8px 10px;backdrop-filter:blur(8px);mask-image:linear-gradient(to top,#000 65%,transparent 100%);opacity:.72}
+.console-title{font-size:8px;letter-spacing:.16em;font-weight:1000;color:#00f6ff;margin-bottom:6px}#eventLog{display:flex;flex-direction:column;gap:5px}#eventLog>div{display:grid;grid-template-columns:82px 1fr;gap:6px;font-size:8px;line-height:1.25}#eventLog b{color:#8dff39;letter-spacing:.07em}#eventLog span{color:rgba(243,237,220,.72);font-weight:700}
+.world-label{clip-path:polygon(3% 0,100% 0,97% 100%,0 95%)}
+#world{image-rendering:auto}
+@keyframes vaultPulse{from{box-shadow:0 0 0 rgba(141,255,57,0)}to{box-shadow:0 0 18px rgba(141,255,57,.35)}}
+@media(max-width:760px){#metaHud{left:12px;top:70px;font-size:7px}#metaHud span{padding:4px 6px}#eventConsole{display:none}.intro-spec{max-width:320px}.intro-spec span{font-size:7px}.brand-lockup{max-width:155px}}
+
+#weatherFx,#speedFx{position:fixed;inset:0;pointer-events:none;z-index:1;transition:opacity 1.2s}#weatherFx{opacity:0}.weather-acid-rain #weatherFx{opacity:.32;background:repeating-linear-gradient(103deg,transparent 0 11px,rgba(141,255,57,.65) 12px 13px,transparent 14px 28px);background-size:100% 170px;animation:rainFall .45s linear infinite}.weather-spore-snow #weatherFx{opacity:.55;background-image:radial-gradient(circle,#f3eddc 0 1.5px,transparent 2px),radial-gradient(circle,#ff4bc9 0 1px,transparent 1.5px);background-size:62px 62px,97px 97px;animation:snowFall 8s linear infinite}.weather-static #weatherFx{opacity:.18;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,246,255,.35) 4px 5px);animation:staticJitter .12s steps(2) infinite}#speedFx{opacity:0;background:radial-gradient(circle at 50% 55%,transparent 45%,rgba(0,246,255,.06) 66%,rgba(141,255,57,.18) 100%);mix-blend-mode:screen}#whisper{position:fixed;right:24px;bottom:210px;max-width:280px;background:#f3eddc;color:#10051c;border:3px solid #09050d;box-shadow:6px 7px 0 #09050d;padding:10px 12px;font-size:11px;font-weight:1000;line-height:1.35;transform:rotate(1deg) translateY(12px);opacity:0;pointer-events:none;transition:.25s;z-index:4}#whisper.show{opacity:1;transform:rotate(-1deg) translateY(0)}
+@keyframes rainFall{to{background-position:0 170px}}@keyframes snowFall{to{background-position:28px 124px,-40px 190px}}@keyframes staticJitter{50%{transform:translateX(2px)}}
+@media(max-width:760px){#whisper{right:12px;bottom:190px;max-width:210px;font-size:9px}#weatherStatus{display:none!important}}
+
+#utilityDock{pointer-events:auto;position:absolute;right:24px;bottom:52px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;max-width:min(620px,55vw)}#utilityDock button{padding:8px 10px;background:rgba(9,5,13,.78);color:var(--bone);border:2px solid rgba(243,237,220,.28);box-shadow:none;font-size:10px;letter-spacing:.08em;backdrop-filter:blur(8px)}#utilityDock button:hover{transform:none;box-shadow:none;border-color:var(--acid);color:var(--acid)}.utility-screen{background:rgba(6,2,11,.72)}.utility-card{position:relative;width:min(720px,calc(100vw - 32px));background:#11071f;color:var(--bone);border:4px solid var(--bone);box-shadow:14px 16px 0 rgba(0,0,0,.55);padding:28px}.utility-card.wide{width:min(860px,calc(100vw - 32px))}.utility-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:8px}.utility-grid button{background:var(--bone);color:#10051c}.utility-copy{font-size:13px;line-height:1.5;color:rgba(243,237,220,.82);margin:8px 0 14px;font-weight:700}.scroll-list,.scroll-copy{max-height:min(60vh,520px);overflow:auto;padding-right:6px}.scroll-list{display:flex;flex-direction:column;gap:8px}.log-card{background:rgba(243,237,220,.08);border:1px solid rgba(243,237,220,.18);padding:10px 12px}.log-card b{display:block;color:var(--acid);font-size:11px;letter-spacing:.11em;margin-bottom:4px}.log-card span{font-size:13px;font-weight:800}.log-card small{display:block;margin-top:6px;color:rgba(243,237,220,.56);font-size:10px;letter-spacing:.08em}.reward-card{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.reward-card.locked{opacity:.55}.reward-card em{font-style:normal;font-size:11px;letter-spacing:.08em;background:#21132d;padding:5px 8px;border:1px solid rgba(243,237,220,.16)}.reward-card.unlocked em{background:var(--acid);color:#10051c;border-color:#0a050e;font-weight:1000}.whisper-form{display:grid;grid-template-columns:96px 1fr auto;gap:8px;margin:10px 0 14px}.whisper-form select,.whisper-form input{background:#f3eddc;color:#10051c;border:3px solid #0a050e;padding:10px;font:inherit;font-weight:1000}.whisper-form input::placeholder{color:#4d3959}#pauseBadge{position:fixed;left:50%;top:92px;transform:translateX(-50%) rotate(-2deg);background:#ff5b5b;color:#10051c;border:3px solid #09050d;box-shadow:5px 5px 0 #09050d;padding:8px 12px;font-weight:1000;font-size:11px;letter-spacing:.12em;opacity:0;pointer-events:none;transition:.18s;z-index:4}.paused-live #pauseBadge{opacity:1}.quality-low .grain{opacity:.06}.quality-low .cosmos{opacity:.45}.quality-low #weatherFx{opacity:.12!important}@media(max-width:760px){#utilityDock{left:12px;right:12px;bottom:118px;max-width:none}#utilityDock button{font-size:8px;padding:7px 8px}.utility-card,.utility-card.wide{padding:22px;width:min(100vw - 24px,860px)}.whisper-form{grid-template-columns:76px 1fr}.whisper-form button{grid-column:1/-1}#pauseBadge{top:128px;font-size:9px}}
+
+/* v0.7 spectacle pass */
+#lightningFlash{position:fixed;inset:0;pointer-events:none;z-index:3;opacity:0;background:rgba(235,255,255,.92);mix-blend-mode:screen}.lightning-live #lightningFlash{animation:dimensionLightning .46s steps(1,end)}
+@keyframes dimensionLightning{0%{opacity:0}8%{opacity:.92}14%{opacity:.08}23%{opacity:.72}30%{opacity:0}42%{opacity:.35}48%,100%{opacity:0}}
+.spectacle-live #objective{border-color:#ff4bc9;color:#f3eddc;box-shadow:0 0 24px rgba(255,75,201,.16)}
+
+/* v0.9 direct-manipulation controls */
+#world{cursor:crosshair}.drive-active #world{cursor:grabbing}
+#mobileControls{display:none!important}
+#interactPrompt{pointer-events:auto;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+#gestureHint{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:4;pointer-events:none;background:rgba(9,5,13,.78);border:2px solid rgba(0,246,255,.42);color:rgba(243,237,220,.88);padding:8px 11px;font-size:9px;font-weight:1000;letter-spacing:.10em;white-space:nowrap;backdrop-filter:blur(8px);transition:opacity .35s,transform .35s}
+#gestureHint.used{opacity:0;transform:translate(-50%,8px)}
+#gestureHint .touch-copy{display:none}
+@media(max-width:760px),(pointer:coarse){#gestureHint{bottom:18px;font-size:8px;max-width:calc(100vw - 24px);white-space:normal;text-align:center;line-height:1.45}#gestureHint .desktop-copy{display:none}#gestureHint .touch-copy{display:inline}#objective{margin-bottom:74px}.achievement-stack{bottom:82px}}
+</style>
+</head>
+<body>
+<canvas id="world" aria-label="Playable GiveMePrompts dimensional world"></canvas>
+<div class="cosmos"></div><div id="weatherFx"></div><div id="speedFx"></div><div class="grain"></div>
+<div id="hud">
+  <div class="brand-lockup">
+    <div class="brand-kicker">GIVEMEPROMPTS</div>
+    <div class="brand-title">DIMENSION <span>404</span></div>
+  </div>
+  <div class="status-cluster">
+    <div class="status-pill"><span class="pulse"></span><span id="zoneName">CENTRAL LAB</span></div>
+    <div class="status-pill slim"><span id="speed">000</span> u/s</div>
+  </div>
+  <div id="circuitHud">CIRCUIT // <span>--:--.---</span></div>
+  <div id="metaHud"><span id="vaultStatus">VAULT: LOCKED</span><span id="weatherStatus">WEATHER: CLEAR</span><span id="metaCount">0/5 DIM · 0/6 ANOM · 0/4 SIDE · 0 CRATES</span></div>
+  <div id="objective">DRIVE INTO A PORTAL. FIND SOMETHING USEFUL.</div>
+  <div id="interactPrompt"><b>E</b> INTERACT</div>
+  <div class="controls-hint">CLICK + DRAG DRIVE · RIGHT-DRAG CAMERA · WHEEL ZOOM · WASD OPTIONAL · E INTERACT · M MAP</div>
+  <div id="utilityDock">
+    <button id="dockOptions">OPTIONS</button>
+    <button id="dockAchievements">ACHIEVEMENTS</button>
+    <button id="dockRewards">REWARDS</button>
+    <button id="dockWhispers">WHISPERS</button>
+    <button id="dockBehind">BEHIND</button>
+  </div>
+</div>
+
+<div id="intro" class="screen active">
+  <div class="intro-card">
+    <div class="warning">UNAUTHORIZED DIMENSIONAL ACCESS</div>
+    <img class="intro-mascot" src="assets/eye-slug.svg" alt="Original dimensional eye-slug mascot">
+    <h1>YOUR IDEA IS<br><span>PROBABLY TERRIBLE.</span></h1>
+    <p>That’s fine. Raw ideas come in. Commercial systems leave. Drive the dimensional buggy through five production worlds, smash what deserves it, and find the stuff nobody labeled.</p>
+    <button id="enterBtn">GET IN THE BUGGY</button>
+    <div class="intro-spec"><span>5 WORLDS</span><span>6 ANOMALIES</span><span>DESTRUCTIBLE JUNK</span><span>HIDDEN VAULT</span></div>
+    <small>Original playable portfolio concept for GiveMePrompts. Direct-drive controls: drag the world, not a D-pad. Plenty of questionable science.</small>
+  </div>
+</div>
+
+<div id="modal" class="screen">
+  <div class="case-card">
+    <button id="closeModal" class="close">×</button>
+    <div id="caseEyebrow" class="case-eyebrow"></div>
+    <h2 id="caseTitle"></h2>
+    <img id="caseArt" class="case-art" alt="Dimension illustration">
+    <p id="caseBody"></p>
+    <div id="caseTags" class="tags"></div>
+    <div class="case-actions">
+      <button id="nextProject">NEXT TRANSMISSION</button>
+      <a href="https://givemeprompts.com" target="_blank" rel="noreferrer">OPEN MAIN SITE ↗</a>
+    </div>
+  </div>
+</div>
+
+<div id="mapPanel" class="screen map-screen">
+  <div class="map-card">
+    <button id="closeMap" class="close">×</button>
+    <div class="map-title">DIMENSION 404 // FIELD MAP</div>
+    <div class="map-grid" id="mapGrid"></div>
+    <div class="map-legend">● YOU · ◉ PORTAL · ◆ DISCOVERED</div>
+  </div>
+</div>
+
+
+<div id="optionsPanel" class="screen utility-screen">
+  <div class="utility-card">
+    <button data-close="optionsPanel" class="close">×</button>
+    <div class="map-title">FIELD OPTIONS</div>
+    <div class="utility-grid">
+      <button id="togglePauseBtn">PAUSE / RESUME</button>
+      <button id="toggleAudioBtn">TOGGLE AUDIO</button>
+      <button id="respawnBtn">UNSTUCK / RESPAWN</button>
+      <button id="toggleQualityBtn">FX QUALITY</button>
+      <button id="resetProgressBtn">RESET PROGRESS</button>
+      <button id="openMapBtn">OPEN MAP</button>
+    </div>
+    <div id="optionsReadout" class="utility-copy"></div>
+  </div>
+</div>
+
+<div id="achievementsPanel" class="screen utility-screen">
+  <div class="utility-card wide">
+    <button data-close="achievementsPanel" class="close">×</button>
+    <div class="map-title">ACHIEVEMENTS</div>
+    <div id="achievementSummary" class="utility-copy"></div>
+    <div id="achievementList" class="scroll-list"></div>
+  </div>
+</div>
+
+<div id="rewardsPanel" class="screen utility-screen">
+  <div class="utility-card wide">
+    <button data-close="rewardsPanel" class="close">×</button>
+    <div class="map-title">REWARDS</div>
+    <div class="utility-copy">Unlockable bragging rights for exploring the world instead of immediately asking where the pricing page is.</div>
+    <div id="rewardsL
