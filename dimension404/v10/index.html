@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#08060d">
+<title>GiveMePrompts // Dimension 404 v1.0</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="world"></canvas><div id="vignette"></div><div id="noise"></div>
+<div id="hud">
+  <div class="brand"><div class="mark"></div><div class="copy"><b>GIVEMEPROMPTS</b><strong>DIMENSION <em>404</em></strong></div></div>
+  <div class="top-right"><div id="progress" class="pill"><strong>0/5</strong> WORLDS</div><button id="mapBtn" class="icon-btn">MAP</button><button id="homeBtn" class="icon-btn">HOME</button></div>
+  <div id="zoneTag"><span>ZONE</span><small>DRAG TOWARD THE POSTER</small></div>
+  <div id="hint">DRAG ANYWHERE TO DRIVE · DRAG FARTHER FOR MORE SPEED · TAP A POSTER TO OPEN</div>
+</div>
+<div id="driveIndicator"></div><div id="driveLine"></div><div id="toast"><b>FIELD LOG</b><div></div></div>
+
+<div id="intro" class="overlay open">
+  <div class="card">
+    <div class="intro-grid">
+      <div class="intro-copy">
+        <div class="eyebrow">GIVEMEPROMPTS // PLAYABLE PORTFOLIO</div>
+        <h1>RAW IDEAS<br><span>ENTER.</span><br>SYSTEMS LEAVE.</h1>
+        <p>A 2.5D creative lab you drive through instead of scroll past. Five poster-worlds. Real work. Direct touch controls. Zero fake spaceship dashboards.</p>
+        <div class="intro-meta"><span>2.5D VECTOR WORLD</span><span>DIRECT DRIVE</span><span>5 PORTFOLIO ZONES</span><span>NO WEBGL BOOT</span></div>
+        <button id="enter" class="cta">ENTER DIMENSION 404</button>
+      </div>
+      <div class="intro-visual">
+        <div class="poster one"><b>BUILD<br>THE THING.</b><small>IMAGE / BRAND / PRODUCT</small></div>
+        <div class="poster two"><b>MAKE IT<br>MOVE.</b><small>VIDEO / CAMPAIGNS / WORLDS</small></div>
+        <div class="poster three"><b>THEN MAKE IT REPEATABLE.</b><small>WEB / AGENTS / SYSTEMS</small></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="project" class="overlay"><div class="card"><button class="close">×</button><div class="card-inner"><div id="projectEye" class="eyebrow"></div><h2 id="projectTitle"></h2><p id="projectBody"></p><div id="projectTags" class="tags"></div><div class="ctas"><button id="nextBtn" class="cta">NEXT TRANSMISSION</button><a class="cta alt" href="https://givemeprompts.com" target="_blank" rel="noreferrer">OPEN MAIN SITE ↗</a></div></div></div></div>
+<div id="map" class="overlay"><div class="card"><button class="close">×</button><div class="card-inner"><div class="eyebrow">DIMENSION 404 // FIELD MAP</div><h2>FIVE WORLDS.<br>ONE SYSTEM.</h2><div id="mapList" class="map-list"></div></div></div></div>
+
+<script src="app.js"></script>
+</body>
+</html>
