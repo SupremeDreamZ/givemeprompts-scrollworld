@@ -1,0 +1,109 @@
+ist" class="scroll-list reward-list"></div>
+  </div>
+</div>
+
+<div id="whispersPanel" class="screen utility-screen">
+  <div class="utility-card wide">
+    <button data-close="whispersPanel" class="close">×</button>
+    <div class="map-title">VISITOR WHISPERS</div>
+    <div class="utility-copy">Local demo version. Messages persist in your browser only. One active whisper from you, newest first, max 30 entries total.</div>
+    <form id="whisperForm" class="whisper-form">
+      <select id="whisperFlag">
+        <option value="🏴">🏴</option>
+        <option value="🌉">🌉</option>
+        <option value="👾">👾</option>
+        <option value="🧪">🧪</option>
+        <option value="⚠️">⚠️</option>
+      </select>
+      <input id="whisperInput" maxlength="30" placeholder="Your message" />
+      <button type="submit">SUBMIT</button>
+    </form>
+    <div id="whispersList" class="scroll-list"></div>
+  </div>
+</div>
+
+<div id="behindPanel" class="screen utility-screen">
+  <div class="utility-card wide">
+    <button data-close="behindPanel" class="close">×</button>
+    <div class="map-title">BEHIND THE SCENE</div>
+    <div id="behindInfo" class="scroll-copy"></div>
+  </div>
+</div>
+
+<div id="pauseBadge">PAUSED</div><div id="lightningFlash"></div>
+
+<div id="whisper"></div>
+<aside id="eventConsole"><div class="console-title">FIELD LOG // LIVE</div><div id="eventLog"><div><b>BOOT</b><span>Reality checks pending.</span></div></div></aside>
+<div id="achievements" class="achievement-stack"></div>
+<div id="worldLabels"></div>
+
+<div id="mobileControls">
+  <div class="pad">
+    <button data-key="KeyW">▲</button>
+    <div><button data-key="KeyA">◀</button><button data-key="KeyS">▼</button><button data-key="KeyD">▶</button></div>
+  </div>
+  <div class="action-pad">
+    <button data-key="ShiftLeft">BOOST</button>
+    <button data-key="Space">JUMP</button>
+    <button data-key="KeyE">USE</button>
+  </div>
+</div>
+<div id="gestureHint"><span class="desktop-copy">LEFT CLICK + DRAG = DRIVE · RIGHT DRAG = CAMERA · WHEEL = ZOOM</span><span class="touch-copy">ONE FINGER = DRIVE · TWO FINGERS = CAMERA / ZOOM · TAP BUGGY = JUMP</span></div>
+<script>(() => {
+'use strict';
+const canvas = document.getElementById('world');
+const gl = canvas.getContext('webgl2', {antialias:true, alpha:false}) || canvas.getContext('webgl', {antialias:true, alpha:false});
+if(!gl){document.body.innerHTML='<div style="padding:30px;color:white;font:16px sans-serif">WebGL is required for Dimension 404.</div>';return;}
+
+// ---- tiny matrix toolkit -------------------------------------------------
+const M4={
+  create:()=>new Float32Array(16),
+  identity(o){o.set([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);return o},
+  perspective(o,fovy,aspect,near,far){const f=1/Math.tan(fovy/2),nf=1/(near-far);o[0]=f/aspect;o[1]=0;o[2]=0;o[3]=0;o[4]=0;o[5]=f;o[6]=0;o[7]=0;o[8]=0;o[9]=0;o[10]=(far+near)*nf;o[11]=-1;o[12]=0;o[13]=0;o[14]=2*far*near*nf;o[15]=0;return o},
+  mul(o,a,b){const r=new Float32Array(16);for(let c=0;c<4;c++)for(let r0=0;r0<4;r0++)r[c*4+r0]=a[0*4+r0]*b[c*4+0]+a[1*4+r0]*b[c*4+1]+a[2*4+r0]*b[c*4+2]+a[3*4+r0]*b[c*4+3];o.set(r);return o},
+  translate(o,a,v){const t=M4.identity(M4.create());t[12]=v[0];t[13]=v[1];t[14]=v[2];return M4.mul(o,a,t)},
+  scale(o,a,v){const s=M4.identity(M4.create());s[0]=v[0];s[5]=v[1];s[10]=v[2];return M4.mul(o,a,s)},
+  rotY(o,a,r){const c=Math.cos(r),s=Math.sin(r),m=M4.identity(M4.create());m[0]=c;m[2]=-s;m[8]=s;m[10]=c;return M4.mul(o,a,m)},
+  rotX(o,a,r){const c=Math.cos(r),s=Math.sin(r),m=M4.identity(M4.create());m[5]=c;m[6]=s;m[9]=-s;m[10]=c;return M4.mul(o,a,m)},
+  rotZ(o,a,r){const c=Math.cos(r),s=Math.sin(r),m=M4.identity(M4.create());m[0]=c;m[1]=s;m[4]=-s;m[5]=c;return M4.mul(o,a,m)},
+  lookAt(o,e,c,u){let zx=e[0]-c[0],zy=e[1]-c[1],zz=e[2]-c[2];let l=Math.hypot(zx,zy,zz)||1;zx/=l;zy/=l;zz/=l;let xx=u[1]*zz-u[2]*zy,xy=u[2]*zx-u[0]*zz,xz=u[0]*zy-u[1]*zx;l=Math.hypot(xx,xy,xz)||1;xx/=l;xy/=l;xz/=l;let yx=zy*xz-zz*xy,yy=zz*xx-zx*xz,yz=zx*xy-zy*xx;o[0]=xx;o[1]=yx;o[2]=zx;o[3]=0;o[4]=xy;o[5]=yy;o[6]=zy;o[7]=0;o[8]=xz;o[9]=yz;o[10]=zz;o[11]=0;o[12]=-(xx*e[0]+xy*e[1]+xz*e[2]);o[13]=-(yx*e[0]+yy*e[1]+yz*e[2]);o[14]=-(zx*e[0]+zy*e[1]+zz*e[2]);o[15]=1;return o}
+};
+
+// ---- shaders -------------------------------------------------------------
+const vs=`attribute vec3 aP;attribute vec3 aN;uniform mat4 uM;uniform mat4 uVP;uniform vec3 uCam;varying vec3 vN;varying vec3 vW;void main(){vec4 w=uM*vec4(aP,1.);vW=w.xyz;vN=mat3(uM)*aN;gl_Position=uVP*w;}`;
+const fs=`precision mediump float;uniform vec3 uC;uniform float uGlow;uniform vec3 uFog;uniform vec3 uCam;varying vec3 vN;varying vec3 vW;void main(){vec3 n=normalize(vN);vec3 L=normalize(vec3(-.45,.85,.2));float nd=max(0.,dot(n,L));float l=.28+floor(nd*3.999)/3.0*.72;vec3 v=normalize(uCam-vW);float rim=pow(1.-max(0.,dot(n,v)),2.2);vec3 c=uC*(l+uGlow*.68)+rim*vec3(.035,.055,.08);float d=distance(vW,uCam);float f=smoothstep(62.,150.,d);c=mix(c,uFog,f);gl_FragColor=vec4(c,1.);}`;
+function shader(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(s));return s}
+const prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vs));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);gl.useProgram(prog);
+const loc={p:gl.getAttribLocation(prog,'aP'),n:gl.getAttribLocation(prog,'aN'),m:gl.getUniformLocation(prog,'uM'),vp:gl.getUniformLocation(prog,'uVP'),c:gl.getUniformLocation(prog,'uC'),g:gl.getUniformLocation(prog,'uGlow'),fog:gl.getUniformLocation(prog,'uFog'),cam:gl.getUniformLocation(prog,'uCam')};
+
+function meshData(pos,nor,idx){const vao=gl.createVertexArray?gl.createVertexArray():null;if(vao)gl.bindVertexArray(vao);const pb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,pb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(pos),gl.STATIC_DRAW);gl.enableVertexAttribArray(loc.p);gl.vertexAttribPointer(loc.p,3,gl.FLOAT,false,0,0);const nb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(nor),gl.STATIC_DRAW);gl.enableVertexAttribArray(loc.n);gl.vertexAttribPointer(loc.n,3,gl.FLOAT,false,0,0);const ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(idx),gl.STATIC_DRAW);return{vao,pb,nb,ib,count:idx.length}}
+function boxMesh(){const p=[],n=[],i=[];const faces=[[[0,0,1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]],[[0,0,-1],[1,-1,-1],[-1,-1,-1],[-1,1,-1],[1,1,-1]],[[1,0,0],[1,-1,1],[1,-1,-1],[1,1,-1],[1,1,1]],[[-1,0,0],[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]],[[0,1,0],[-1,1,1],[1,1,1],[1,1,-1],[-1,1,-1]],[[0,-1,0],[-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1]]];faces.forEach(f=>{const b=p.length/3;for(let k=1;k<5;k++){p.push(...f[k]);n.push(...f[0])}i.push(b,b+1,b+2,b,b+2,b+3)});return meshData(p,n,i)}
+function cylMesh(seg=20){const p=[],n=[],i=[];for(let y=-1;y<=1;y+=2){const center=p.length/3;p.push(0,y,0);n.push(0,y,0);for(let s=0;s<=seg;s++){let a=s/seg*Math.PI*2;p.push(Math.cos(a),y,Math.sin(a));n.push(0,y,0)}for(let s=0;s<seg;s++){if(y<0)i.push(center,center+s+2,center+s+1);else i.push(center,center+s+1,center+s+2)}}const side=p.length/3;for(let s=0;s<=seg;s++){let a=s/seg*Math.PI*2,c=Math.cos(a),z=Math.sin(a);p.push(c,-1,z,c,1,z);n.push(c,0,z,c,0,z)}for(let s=0;s<seg;s++){let b=side+s*2;i.push(b,b+1,b+3,b,b+3,b+2)}return meshData(p,n,i)}
+function torusMesh(R=1,r=.18,seg=24,tube=8){const p=[],n=[],i=[];for(let a=0;a<=seg;a++){let u=a/seg*Math.PI*2,cu=Math.cos(u),su=Math.sin(u);for(let b=0;b<=tube;b++){let v=b/tube*Math.PI*2,cv=Math.cos(v),sv=Math.sin(v);p.push((R+r*cv)*cu,r*sv,(R+r*cv)*su);n.push(cv*cu,sv,cv*su)}}for(let a=0;a<seg;a++)for(let b=0;b<tube;b++){let x=a*(tube+1)+b,y=x+tube+1;i.push(x,y,x+1,y,y+1,x+1)}return meshData(p,n,i)}
+
+function sphereMesh(seg=18,rings=12){const p=[],n=[],i=[];for(let y=0;y<=rings;y++){let v=y/rings,phi=v*Math.PI;for(let x=0;x<=seg;x++){let u=x/seg,th=u*Math.PI*2,sn=Math.sin(phi),px=Math.cos(th)*sn,py=Math.cos(phi),pz=Math.sin(th)*sn;p.push(px,py,pz);n.push(px,py,pz)}}for(let y=0;y<rings;y++)for(let x=0;x<seg;x++){let a=y*(seg+1)+x,b=a+seg+1;i.push(a,b,a+1,b,b+1,a+1)}return meshData(p,n,i)}
+function facetedMesh(tris){const p=[],n=[],i=[];for(const tri of tris){const base=p.length/3,a=tri[0],b=tri[1],c=tri[2],ux=b[0]-a[0],uy=b[1]-a[1],uz=b[2]-a[2],vx=c[0]-a[0],vy=c[1]-a[1],vz=c[2]-a[2],nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx,l=Math.hypot(nx,ny,nz)||1,nn=[nx/l,ny/l,nz/l];p.push(...a,...b,...c);n.push(...nn,...nn,...nn);i.push(base,base+1,base+2)}return meshData(p,n,i)}
+function coneMesh(seg=14){const tris=[],top=[0,1,0],base=[0,-1,0];for(let k=0;k<seg;k++){const a=k/seg*Math.PI*2,b=(k+1)/seg*Math.PI*2,p0=[Math.cos(a),-1,Math.sin(a)],p1=[Math.cos(b),-1,Math.sin(b)];tris.push([p0,p1,top],[base,p0,p1])}return facetedMesh(tris)}
+function diamondMesh(){const T=[0,1,0],B=[0,-1,0],E=[[1,0,0],[0,0,1],[-1,0,0],[0,0,-1]],tris=[];for(let k=0;k<4;k++){const a=E[k],b=E[(k+1)%4];tris.push([T,a,b],[B,b,a])}return facetedMesh(tris)}
+function wedgeMesh(){const A=[-1,-1,-1],B=[1,-1,-1],C=[-1,-1,1],D=[1,-1,1],E=[-1,1,1],F=[1,1,1];return facetedMesh([[A,B,D],[A,D,C],[C,D,F],[C,F,E],[A,C,E],[A,E,F],[A,F,B],[B,F,D]])}
+const meshes={box:boxMesh(),cyl:cylMesh(),torus:torusMesh(),sphere:sphereMesh(),cone:coneMesh(),diamond:diamondMesh(),wedge:wedgeMesh()};
+function hex(h){const n=parseInt(h.replace('#',''),16);return[(n>>16&255)/255,(n>>8&255)/255,(n&255)/255]}
+const objects=[];
+let seed=404042;function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}
+function add(type,pos,scale,color,ry=0,glow=0,rx=0,tag=''){objects.push({type,pos:[...pos],scale:[...scale],color:hex(color),ry,rx,glow,tag,baseY:pos[1],active:true});return objects[objects.length-1]}
+
+// ---- world ---------------------------------------------------------------
+add('box',[0,-1.1,0],[90,.8,90],'#170a24',0,0);
+// road cross and arena
+add('box',[0,-.16,0],[7,.08,70],'#29133b'); add('box',[0,-.15,0],[70,.08,7],'#29133b');
+for(let z=-60;z<=60;z+=8)add('box',[0,.0,z],[.25,.03,2.1],'#8dff39',0,.35);
+for(let x=-60;x<=60;x+=8)add('box',[x,.01,0],[2.1,.03,.25],'#00f6ff',0,.25);
+// central lab
+add('cyl',[0,1.25,0],[8,1.2,8],'#2d0a52',0,.2);add('cyl',[0,3.5,0],[5.4,1.1,5.4],'#5d1b8d',0,.1);add('torus',[0,7,0],[3.8,3.8,3.8],'#8dff39',0,.9,Math.PI/2,'centralPortal');
+add('torus',[0,7.05,0],[3.15,3.15,3.15],'#00f6ff',0,.65,Math.PI/2,'centralPortal');
+for(let i=0;i<12;i++){let a=i/12*Math.PI*2;add('box',[Math.cos(a)*12,1.6,Math.sin(a)*12],[.8,1.6,.8],i%2?'#00f6ff':'#ff4bc9',-a,.25)}
+// zone constructors
+const zones=[
+ {id:'image',name:'IMAGE DIMENSION',x:-48,z:-38,color:'#ff4bc9',title:'VISUAL SYSTEMS',body:'Campaign images, product worlds, packaging concepts and character systems built as repeatable production pipelines instead of one-off pretty pictures.',tags:['IMAGE SYSTEMS','PRODUCT VISUALS','PACKAGING','CHARACTERS'],art:'assets/eye-slug.svg'},
+ {id:'video',name:'VIDEO DIMENSION',x:50,z:-34,color:'#ff5b5b',title:'MOTION LAB',body:'Short-form ads, cinematic sequences and scene-boarded video systems designed around continuity, controlled visual language and reusable shot logic.',tags:['VIDEO ADS','STORYBOARDS','CONTINUITY','CAMPAIGNS'],art:'assets/portal-swirl.svg'},
+ {id:'brand',name:'BRAND DIMENS
