@@ -1,0 +1,64 @@
+ION',x:-52,z:35,color:'#8dff39',title:'BRAND MUTATION BAY',body:'Identity systems where mascots, packaging, art direction, site language and campaign assets all belong to the same strange little universe.',tags:['BRAND SYSTEMS','ART DIRECTION','PACKAGING','WEBSITES'],art:'assets/slime-splat.svg'},
+ {id:'code',name:'CODE DIMENSION',x:52,z:36,color:'#00f6ff',title:'INTERACTIVE BUILDS',body:'Websites and interactive prototypes that behave like products, not brochures. Motion, tools, demos and systems that prove the pitch by existing.',tags:['WEB','3D','INTERACTION','PROTOTYPES'],art:'assets/buggy-mark.svg'},
+ {id:'agent',name:'AGENT FACTORY',x:0,z:63,color:'#ffc928',title:'AUTOMATION FACTORY',body:'Agent workflows for research, production, follow-up, reporting and repetitive operations. Tiny digital employees, minus the awkward birthday cake.',tags:['AGENTS','WORKFLOWS','AUTOMATION','OPS'],art:'assets/agent-bot.svg'}
+];
+const transmissions=[
+ {zone:'image',title:'AURELIA // COASTAL WORLD',body:'Self-directed architectural look-development system: a coherent Northern California residence language carried across exterior, salon and bedroom imagery with locked materials, atmosphere and editorial camera logic.',tags:['SPEC STUDY','ARCHVIZ','CONSISTENCY','ART DIRECTION'],art:'assets/portal-glyph.svg'},
+ {zone:'image',title:'KNOT // CHARACTER SYSTEM',body:'Original tactile-object brand study built around one memorable graphite knot mascot, strict silhouette rules and reusable presentation poses instead of a pile of unrelated mascot renders.',tags:['ORIGINAL IP','MASCOT','PRODUCT WORLD','SYSTEM'],art:'assets/eye-slug.svg'},
+ {zone:'video',title:'ROSEVILLE // 15S SPEC AD',body:'A short-form med-spa spec workflow built around presenter identity continuity, treatment-room B-roll, end-card QC and an explicit pass/fail process rather than accepting the first render that moves.',tags:['SPEC AD','SHORT FORM','QC','CONTINUITY'],art:'assets/portal-swirl.svg'},
+ {zone:'video',title:'THE ALGORITHM // HORROR CAMPAIGN',body:'A cinematic short-form horror system: repeatable 3:33 AM visual language, scene boards, camera rules and teaser structures designed to survive across multiple generated shots.',tags:['HORROR','STORY SYSTEM','CAMERA','TEASERS'],art:'assets/warning-sticker.svg'},
+ {zone:'brand',title:'FORM/01 // INDUSTRIAL OBJECT',body:'Fictional premium speaker identity study where industrial design, material vocabulary, product photography and brand restraint all answer to one object-level design language.',tags:['PRODUCT DESIGN','IDENTITY','EDITORIAL','SPEC'],art:'assets/dimension-404-badge.svg'},
+ {zone:'brand',title:'GRIDLINE // INFRASTRUCTURE ID',body:'A fictional electrical-infrastructure identity concept built to feel technically credible and documentary rather than drifting into generic glowing sci-fi machinery.',tags:['B2B BRAND','INDUSTRIAL','VISUAL SYSTEM','SPEC'],art:'assets/slime-splat.svg'},
+ {zone:'code',title:'GIVEMEPROMPTS // OUTCOME ENGINE',body:'The core product direction: transform rough creative intent into production-ready systems that can be saved, reused and scaled instead of selling isolated prompts as magic spells.',tags:['PRODUCT','WEB','AI SYSTEMS','UX'],art:'assets/buggy-mark.svg'},
+ {zone:'code',title:'DIMENSION 404 // THIS BUILD',body:'A playable portfolio prototype developed as the pitch itself: custom WebGL rendering, game controls, dimensions, portals, discoveries, circuit logic and authored interaction instead of a conventional project grid.',tags:['WEBGL','INTERACTION','GAME UX','PORTFOLIO'],art:'assets/portal-glyph.svg'},
+ {zone:'agent',title:'AI FRONT OFFICE // PILOT',body:'A service-system concept for missed-call recovery, qualification, follow-up and scheduling. The point is not a chatbot window. The point is fewer leads quietly leaking out of the business.',tags:['AGENTS','LEAD FLOW','AUTOMATION','SERVICE'],art:'assets/agent-bot.svg'},
+ {zone:'agent',title:'GAUNTLET LOOP // QA SYSTEM',body:'A build-and-critic workflow where work is compared against a concrete reference, the biggest remaining gap is repaired, and the loop continues instead of letting the builder grade its own homework.',tags:['QA','MULTI-AGENT','CRITIQUE','WORKFLOW'],art:'assets/agent-bot.svg'}
+];
+zones.forEach((z,zi)=>{
+ add('cyl',[z.x,1,z.z],[8,.8,8],z.color,0,.05);
+ add('torus',[z.x,5.5,z.z],[4,4,4],z.color,0,.8,Math.PI/2,'portal-'+z.id);
+ for(let i=0;i<7;i++){let a=i/7*Math.PI*2;add('box',[z.x+Math.cos(a)*15,1.1,z.z+Math.sin(a)*15],[1.2,1.1,1.2],i%2?z.color:'#f3eddc',-a,.1)}
+ // bespoke landmarks
+ if(z.id==='image'){add('box',[z.x-1,4,z.z-14],[5,3,.8],'#f3eddc',0,0);add('cyl',[z.x-1,4,z.z-15.2],[2.1,1.4,2.1],'#2d0a52',Math.PI/2,.1,Math.PI/2)}
+ if(z.id==='video'){add('box',[z.x,2.5,z.z-14],[6,.5,3],'#0a050e');for(let i=0;i<4;i++)add('box',[z.x-4+i*2.7,4,z.z-14],[1.1,1.1,1.1],i%2?'#f3eddc':'#ff5b5b',0,.1)}
+ if(z.id==='brand'){for(let i=0;i<4;i++)add('box',[z.x-5+i*3.4,2.5,z.z-14],[1.4,2.5,1.4],['#ff4bc9','#00f6ff','#8dff39','#f3eddc'][i],.2*i,.15)}
+ if(z.id==='code'){for(let i=0;i<5;i++)add('box',[z.x-7+i*3.5,2+i*.65,z.z-14],[1.3,2+i*.65,1.3],i%2?'#00f6ff':'#5d1b8d',0,.25)}
+ if(z.id==='agent'){for(let i=0;i<6;i++){let x=z.x-8+i*3.2;add('box',[x,1.2,z.z-14],[1.2,1.2,1.2],i%2?'#ffc928':'#2d0a52',0,.2);add('cyl',[x,3,z.z-14],[.65,.65,.65],'#f3eddc',0,.1)}}
+});
+// debris / crystals / alien life
+for(let i=0;i<70;i++){let a=rand()*Math.PI*2,r=18+rand()*68,x=Math.cos(a)*r,z=Math.sin(a)*r;if(Math.abs(x)<8||Math.abs(z)<8||zones.some(q=>Math.hypot(x-q.x,z-q.z)<19))continue;let h=.5+rand()*2;add(i%3?'box':'cyl',[x,h,z],[.35+rand()*.8,h,.35+rand()*.8],['#5d1b8d','#00f6ff','#8dff39','#ff4bc9'][i%4],rand()*6.2,.15)}
+
+// faceted skyline and crystal fields: expanded silhouette language for v0.8 craft pass
+for(let i=0;i<22;i++){const a=i/22*Math.PI*2,r=74+(i%3)*2.1,h=4.2+(i%6)*1.55,x=Math.cos(a)*r,z=Math.sin(a)*r;add('cone',[x,h,z],[2.2+(i%4)*.7,h,2.2+(i%4)*.7],i%3===0?'#2d0a52':i%3===1?'#5d1b8d':'#170a24',-a,.04,0,'skySpire');if(i%4===0)add('diamond',[x*.91,2.4,z*.91],[1.15,2.4,1.15],i%2?'#00f6ff':'#8dff39',a,.4,0,'crystal')}
+zones.forEach((z,zi)=>{for(let j=0;j<5;j++){const a=j/5*Math.PI*2+.35*zi,r=10.5+(j%2)*2.2,x=z.x+Math.cos(a)*r,zz=z.z+Math.sin(a)*r;add('diamond',[x,2.1,zz],[.65+(j%3)*.2,2.1+(j%2)*.8,.65+(j%3)*.2],j%2?z.color:'#f3eddc',a,.28,0,'zoneCrystal')}});
+
+// organic cartoon landmarks: eyeballs, slime pods, mushrooms and a distant moon
+for(const q of [[-9,2.1,8],[9,2.2,7],[-12,2.4,-7],[11,2.0,-8]]){add('sphere',q,[1.6,1.6,1.6],'#f3eddc',0,.1);add('sphere',[q[0],q[1],q[2]-1.35],[.62,.62,.35],'#00f6ff',0,.35);add('sphere',[q[0],q[1],q[2]-1.7],[.23,.23,.18],'#09050d')}
+for(let i=0;i<14;i++){let a=i/14*Math.PI*2,r=27+(i%3)*3,x=Math.cos(a)*r,z=Math.sin(a)*r;add('cyl',[x,.8,z],[.35,.8,.35],'#f3eddc');add('sphere',[x,2,z],[1.2,.55,1.2],i%2?'#ff4bc9':'#8dff39',0,.2)}
+add('sphere',[48,34,-68],[11,11,11],'#5d1b8d',0,.18);add('torus',[48,34,-68],[13,13,13],'#ff4bc9',.5,.25,.6);
+
+// authored set-pieces, shortcuts, destructibles and anomalies
+const destructibles=[];const ramps=[];const boostPads=[];
+function crate(x,z,c='#ffc928'){const o=add('box',[x,.72,z],[.72,.72,.72],c,rand()*3,.06,0,'crate');o.band=add('box',[x,.74,z],[.78,.10,.78],'#09050d',o.ry,0,0,'crateBand');destructibles.push(o);return o}
+function pipeRun(x,z,len,vertical=false,c='#f3eddc'){add('cyl',[x,vertical?len*.5:1.0,z],vertical?[.22,len*.5,.22]:[.22,.22,len*.5],c,0,.05,vertical?0:Math.PI/2);}
+function eyeTower(x,z,c='#f3eddc'){add('cyl',[x,2.2,z],[.55,2.2,.55],'#5d1b8d');add('sphere',[x,5.15,z],[1.55,1.25,1.15],c,0,.12);add('sphere',[x,5.15,z-1.03],[.65,.65,.28],'#00f6ff',0,.5);add('sphere',[x,5.15,z-1.3],[.22,.22,.16],'#09050d');}
+function antenna(x,z,h=6,c='#00f6ff'){add('cyl',[x,h*.5,z],[.11,h*.5,.11],c,0,.3);for(let i=0;i<3;i++)add('torus',[x,2+i*1.6,z],[.65+i*.25,.65+i*.25,.65+i*.25],i%2?'#ff4bc9':c,0,.45,Math.PI/2,'spin');add('sphere',[x,h+.5,z],[.4,.4,.4],'#ffc928',0,.75)}
+function ramp(x,z,ry=0){const o=add('wedge',[x,1.15,z],[3,1.15,4.5],'#f3eddc',ry,.04,0,'ramp');ramps.push({x,z,ry,o,armed:true});return o}
+function boostPad(x,z,ry=0){const o=add('box',[x,.05,z],[2.2,.07,3.3],'#00f6ff',ry,.75,0,'boostPad');boostPads.push({x,z,o,cool:0});for(let i=-1;i<=1;i++)add('box',[x+Math.cos(ry)*i*.8,.12,z-Math.sin(ry)*i*.8],[.18,.04,2.2],'#8dff39',ry,.65)}
+// central lab becomes an actual machine rather than a decorative donut
+for(let i=0;i<6;i++){let a=i/6*Math.PI*2,x=Math.cos(a)*7.5,z=Math.sin(a)*7.5;add('cyl',[x,3.0,z],[.45,2.8,.45],i%2?'#f3eddc':'#ffc928',0,.08);add('torus',[x,5.9,z],[.7,.7,.7],'#00f6ff',a,.42,Math.PI/2,'spin')}
+for(const [x,z] of [[-16,11],[16,11],[-16,-11],[16,-11]])antenna(x,z,5.5);
+for(const [x,z] of [[-20,7],[20,7],[-20,-7],[20,-7]])crate(x,z);
+ramp(-9,-18,0);ramp(12,20,Math.PI);boostPad(0,-27,0);boostPad(-30,0,Math.PI/2);boostPad(33,0,-Math.PI/2);
+// image dimension: giant camera shrine + light stands + eyeball director
+{const z=zones[0];add('box',[z.x,z.z?3:3,z.z-16],[6,3.2,2.2],'#f3eddc',0,.05);add('cyl',[z.x,3,z.z-19],[2.25,2.2,2.25],'#2d0a52',0,.1,Math.PI/2);add('cyl',[z.x,3,z.z-21],[1.15,1.2,1.15],'#00f6ff',0,.6,Math.PI/2);for(const dx of [-8,8]){add('cyl',[z.x+dx,2,z.z-13],[.18,2,.18],'#09050d');add('sphere',[z.x+dx,4.5,z.z-13],[1.2,.7,.45],'#ffc928',0,.25)}eyeTower(z.x+11,z.z-6);}
+// video dimension: clapper gate, projector drums, screen arch
+{const z=zones[1];add('box',[z.x,5.5,z.z-16],[7,.35,2.5],'#09050d',0,0,-.12);for(let i=-3;i<=3;i++)add('box',[z.x+i*1.85,6,z.z-16],[.65,.28,2.6],i%2?'#f3eddc':'#ff5b5b',0,.08,-.12);for(const dx of [-5.5,5.5]){add('cyl',[z.x+dx,2.7,z.z-10],[2.1,.65,2.1],'#f3eddc',0,.1,Math.PI/2);add('cyl',[z.x+dx,2.7,z.z-10.8],[.6,.75,.6],'#09050d',0,0,Math.PI/2)}antenna(z.x,z.z+12,7,'#ff5b5b');}
+// brand dimension: package city + mascot altar
+{const z=zones[2];const cols=['#ff4bc9','#00f6ff','#8dff39','#ffc928','#f3eddc'];for(let i=0;i<9;i++){let x=z.x-12+(i%5)*6,zz=z.z-15+Math.floor(i/5)*7,h=2.2+(i%4)*1.2;add('box',[x,h,zz],[2.1,h,2.1],cols[i%cols.length],.08*i,.1);add('box',[x,h*2+.5,zz],[1.4,.18,1.4],'#09050d',.08*i)}eyeTower(z.x+10,z.z+7,'#8dff39');}
+// code dimension: terminal canyon and portal compiler
+{const z=zones[3];for(let i=0;i<8;i++){let side=i%2?-1:1,x=z.x+side*(6+(i%3)*3),zz=z.z-13+Math.floor(i/2)*6,h=2.6+(i%4)*1.4;add('box',[x,h,zz],[2,h,1.5],'#12091d',0,0);for(let y=1;y<h*2;y+=1.4)add('box',[x-side*2.05,y,zz],[.08,.36,.9],i%3?'#00f6ff':'#8dff39',0,.6)}for(let i=0;i<4;i++)add('torus',[z.x,2.2+i*1.35,z.z+10],[2.1+i*.7,2.1+i*.7,2.1+i*.7],i%2?'#5d1b8d':'#00f6ff',i*.4,.5,Math.PI/2,'spin');}
+// agent factory: conveyor, robot pods and overhead pipes
+{const z=zones[4];add('box',[z.x,1.1,z.z-17],[12,.4,2.5],'#09050d');for(let i=-5;i<=5;i++)add('cyl',[z.x+i*2.1,1.45,z.z-17],[.55,.35,.55],'#f3eddc',0,.05,Math.PI/2);for(let i=-3;i<=3;i++){let x=z.x+i*3.2;add('box',[x,3.3,z.z-9],[1.25,1.6,1.1],i%2?'#ffc928':'#2d0a52',0,.15);add('sphere',[x,5.35,z.z-9],[.9,.75,.7],'#f3eddc',0,.08);add('sphere',[x-.3,5.4,z.z-9.65],[.16,.16,.1],'#00f6ff',0,.7);add('sphere',[x+.3,5.4,z.z-9.65],[.16,.16,.1],'#00f6ff',0,.7)}pipeRun(-8,z.z+6,8,true,'#ffc928');pipeRun(8,z.z+6,8,true,'#ffc928');}
+// breakable junk trails
+for(let i=0;i<26;i++){let a=i/26*Math.PI*2,r=34+(i%4)*6;crate(Math.cos(a)*r,Math.sin(a)*r,i%3?'#ffc928':'#ff5b5b'
